@@ -201,7 +201,17 @@ for (x in 1:length(cds_props)){
       cds_prop="diagnosis_finer_resolution"
       cds_prop_check=TRUE
       df_template_transfer_add$special_action="hard_coded_translation"
+    }else if(cds_prop=='guid'){
+      cds_prop="dcf_indexd_guid"
+      cds_prop_check=TRUE
+      df_template_transfer_add$special_action="hard_coded_translation"
+    }else if(cds_prop=='primary_site'){
+      cds_prop="anatomic_site"
+      cds_prop_check=TRUE
+      df_template_transfer_add$special_action="hard_coded_translation"
     }
+    
+    
     
     if (cds_prop %in% temp_node_prop_df$temp_prop){
       ccdi_node_pos=grep(pattern = TRUE, x = temp_node_prop_df$temp_prop %in% cds_prop)
@@ -218,6 +228,12 @@ for (x in 1:length(cds_props)){
       #specific add to make sure that sample_anatomic_site is placed in the sample node
       if (cds_prop_check & cds_prop=="sample_anatomic_site"){
         ccdi_node="sample"
+        df_template_transfer_add$special_action=paste(c(df_template_transfer_add$special_action,"assumed_node"), collapse = ";")
+      }
+      
+      #specific add to make sure that primary_site is placed in the diagnosis node
+      if (cds_prop_check & cds_prop=="primary_site"){
+        ccdi_node="diagnosis"
         df_template_transfer_add$special_action=paste(c(df_template_transfer_add$special_action,"assumed_node"), collapse = ";")
       }
       
